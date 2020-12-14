@@ -10,6 +10,42 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 const portfinder = require('portfinder')
 
+const express = require('express')
+const app = express()
+
+// get data.json
+const appData = require('../data.json')
+const seller = appData.seller
+const goods = appData.goods
+console.log('goods: ', goods);
+const ratings = appData.ratings
+
+const apiRoutes = express.Router()
+
+apiRoutes.get('/seller',function(req,res){
+  res.json({
+    errno:0,
+    data:seller
+  })
+})
+
+apiRoutes.get('/goods',function(){
+  res.json({
+    errno:0,
+    data:goods
+  })
+})
+
+apiRoutes.get('/ratings',function(){
+  res.json({
+    errno:0,
+    data:ratings
+  })
+})
+// get data.json
+
+app.use('/api',apiRoutes)
+
 const HOST = process.env.HOST
 const PORT = process.env.PORT && Number(process.env.PORT)
 
